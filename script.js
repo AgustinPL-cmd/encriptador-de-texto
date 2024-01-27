@@ -58,6 +58,7 @@ document.getElementById('textoEncriptar').addEventListener("input", function(eve
         warningMessage.style.alignItems= 'center';
         warningMessage.style.gap = '5px';
         inputValue =  inputValue.toLowerCase();
+        mensajeAdvertencia.innerHTML = "<strong>Ingresa solo minúsculas<strong/>"
         
     }else if(regex.test(inputValue[inputValue.length - 1])){
         
@@ -66,6 +67,7 @@ document.getElementById('textoEncriptar').addEventListener("input", function(eve
         warningMessage.style.alignItems= 'center';
         warningMessage.style.gap = '5px';
         inputValue = inputValue.replace(/[áéíóúÁÉÍÓÚ]/g, letra => mapaDeTildes[letra]);
+        mensajeAdvertencia.innerHTML = "<strong>No ingreses tildes<strong/>"
 
     }
     else{
@@ -84,6 +86,8 @@ function procesarMensaje(opcion){
     let mensaje = document.getElementById('textoEncriptar').value;
     let letrasDesencriptadas = ['e', 'i', 'a', 'o', 'u'];
     let letrasEncriptadas = ['enter', 'imes', 'ai', 'ober', 'ufat'];
+    const warningMessage = document.getElementById('warning');
+    const mensajeAdvertencia = document.getElementById('p-advertencia');
 
     let letra = '';
     let mensajeEncriptado = '';
@@ -92,54 +96,69 @@ function procesarMensaje(opcion){
 
     document.getElementById('form-mensaje').addEventListener("submit", function(event){
         event.preventDefault();
-    })
+    });
 
-    if(opcion == 1){
-        for(let i = 0; i < mensaje.length; i++){
-            letra = mensaje[i];
-            switch (letra){
-                case 'e':
-                    mensajeEncriptado += 'enter';
-                    break;
-                case 'i':
-                    mensajeEncriptado += 'imes';
-                    break;
-                case 'a':
-                    mensajeEncriptado += 'ai';
-                    break;
-                case 'o':
-                    mensajeEncriptado += 'ober';
-                    break;
-                case 'u':
-                    mensajeEncriptado += 'ufat';
-                    break;
-                default:
-                    mensajeEncriptado += letra;
-
+    if(mensaje.length != 0){
+        console.log('Carajo');
+        if(opcion == 1){
+            for(let i = 0; i < mensaje.length; i++){
+                letra = mensaje[i];
+                switch (letra){
+                    case 'e':
+                        mensajeEncriptado += 'enter';
+                        break;
+                    case 'i':
+                        mensajeEncriptado += 'imes';
+                        break;
+                    case 'a':
+                        mensajeEncriptado += 'ai';
+                        break;
+                    case 'o':
+                        mensajeEncriptado += 'ober';
+                        break;
+                    case 'u':
+                        mensajeEncriptado += 'ufat';
+                        break;
+                    default:
+                        mensajeEncriptado += letra;
+    
+                }
             }
+            
+            mostrarMensaje.textContent = mensajeEncriptado;
         }
-        
-        mostrarMensaje.textContent = mensajeEncriptado;
+        else{
+    
+            mensajeDesencriptado = mensaje;
+    
+            for(let i = 0; i < letrasEncriptadas.length; i++){
+                arrayDesencriptado = mensajeDesencriptado.split(letrasEncriptadas[i]);
+                mensajeDesencriptado = arrayDesencriptado.join(letrasDesencriptadas[i]);
+            }
+    
+            
+            mostrarMensaje.textContent = mensajeDesencriptado;
+    
+        }
+
+        seccionInicial.style.display = 'none';
+        btnCopy.style.display = 'block';
+        mostrarMensaje.style.width = '80%';
+        mostrarMensaje.style.height = '70%';
     }
     else{
-
-        mensajeDesencriptado = mensaje;
-
-        for(let i = 0; i < letrasEncriptadas.length; i++){
-            arrayDesencriptado = mensajeDesencriptado.split(letrasEncriptadas[i]);
-            mensajeDesencriptado = arrayDesencriptado.join(letrasDesencriptadas[i]);
-        }
-
-        
-        mostrarMensaje.textContent = mensajeDesencriptado;
-
+        warningMessage.style.display = 'flex';
+        warningMessage.style.flexDirection = 'row';
+        warningMessage.style.alignItems= 'center';
+        warningMessage.style.gap = '5px';
+        mensajeAdvertencia.style.display = 'block';
+        mensajeAdvertencia.innerHTML = "<strong>Ingresa texto<strong/>"
     }
+    
+
 
     
-    seccionInicial.style.display = 'none';
-    btnCopy.style.display = 'block';
-    mostrarMensaje.style.width = '80%';
-    mostrarMensaje.style.height = '70%';
+    
     
 }
 
