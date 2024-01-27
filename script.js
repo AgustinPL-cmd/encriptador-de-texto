@@ -38,6 +38,45 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+document.getElementById('textoEncriptar').addEventListener("input", function(event){
+    let inputValue = event.target.value;
+    const warningMessage = document.getElementById('warning');
+    const regex = /[áéíóúÁÉÍÓÚ]/;
+    const mapaDeTildes = {
+        'á': 'a',
+        'é': 'e',
+        'í': 'i',
+        'ó': 'o',
+        'ú': 'u',
+      };
+    
+    const mensajeAdvertencia =  document.getElementById('p-advertencia');
+
+    if(inputValue != inputValue.toLowerCase()){
+        warningMessage.style.display = 'flex';
+        warningMessage.style.flexDirection = 'row';
+        warningMessage.style.alignItems= 'center';
+        warningMessage.style.gap = '5px';
+        inputValue =  inputValue.toLowerCase();
+        
+    }else if(regex.test(inputValue[inputValue.length - 1])){
+        
+        warningMessage.style.display = 'flex';
+        warningMessage.style.flexDirection = 'row';
+        warningMessage.style.alignItems= 'center';
+        warningMessage.style.gap = '5px';
+        inputValue = inputValue.replace(/[áéíóúÁÉÍÓÚ]/g, letra => mapaDeTildes[letra]);
+
+    }
+    else{
+        warningMessage.style.display = 'none';  
+    }   
+
+     // Asigna el nuevo valor al campo de entrada
+     event.target.value = inputValue;
+})
+
+
 function procesarMensaje(opcion){
     const seccionInicial = document.getElementById('mensaje-no-encontrado');
     const btnCopy = document.getElementById('div-sombra2');
